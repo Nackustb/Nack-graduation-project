@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文心一言问答</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+    <script>
+        async function askQuestion() {
+            const question = document.getElementById("question").value;
+            const resultElement = document.getElementById("result");
+            
+            if (!question) {
+                resultElement.textContent = "请输入问题！";
+                resultElement.classList.remove('success', 'error');
+                resultElement.classList.add('error');
+                return;
+            }
+
+            // 调用后端接口
+            const response = await fetch("/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.answer) {
+                    resultElement.textContent = "回答：" + data.answer;
+                    resultElement.classList.remove('error');
+                    resultElement.classList.add('success');
+                } else if (data.error) {
+                    resultElement.textContent = "错误：" + data.error;
+                    resultElement.classList.remove('success');
+                    resultElement.classList.add('error');
+                }
+            } else {
+                resultElement.textContent = "请求失败，请稍后再试！";
+                resultElement.classList.remove('success');
+                resultElement.classList.add('error');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>文心一言问答</h1>
+        <label for="question">输入问题：</label>
+        <input type="text" id="question" placeholder="请输入您的问题">
+        <button onclick="askQuestion()">提问</button>
+        <p id="result"></p>
+    </div>
+</body>
+</html>
