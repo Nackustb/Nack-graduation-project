@@ -7,6 +7,7 @@
 `socket`函数用于创建一个新的套接字。它的基本格式如下：
 
 ```
+socket.socket(family, type)
 socket.socket(family, type, proto=0)
 ```
 
@@ -167,42 +168,124 @@ client_socket.close()
 
 ```
 import socket
+import struct
+
+# 设置接收端的IP和端口
+UDP_IP = "127.0.0.1"  # 本地地址
+UDP_PORT = 5005
 
 # 创建UDP套接字
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
 
-# 绑定IP和端口
-server_socket.bind(('127.0.0.1', 5000))
-
-print("UDP服务器已启动，等待接收数据...")
+print(f"服务器已启动，等待接收数据...")
 
 while True:
     # 接收数据
-    data, addr = server_socket.recvfrom(1024)
-    print(f"收到来自 {addr} 的数据：{data.decode()}")
+    data, addr = sock.recvfrom(4)  # 接收4字节数据（整数占4字节）
+    number = struct.unpack('!I', data)[0]  # 将字节数据转换为整数
+    print(f"接收到来自 {addr} 的数字：{number}")	
+```
 
-    # 发送响应
-    server_socket.sendto(b"Hello, Client!", addr)
+```
+import cv2
+import socket
+import numpy as np
+
+# 设置服务器端IP和端口
+UDP_IP = "127.0.0.1"  # 本地地址
+UDP_PORT = 5005  # 端口号
+
+# 创建UDP套接字
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
+
+print(f"服务器已启动，等待接收数据...")
+
+while True:
+    # 接收数据
+    data, addr = sock.recvfrom(65536)  # 这里的缓冲区大小是65536字节
+    # 将数据解码成图像
+    nparr = np.frombuffer(data, np.uint8)
+    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    
+    if frame is not None:
+        cv2.imshow('Received Video Frame', frame)
+
+    # 按 'q' 键退出
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# 释放资源
+sock.close()
+cv2.destroyAllWindows()
+
 ```
 
 ### 2. 客户端代码
 
 ```
 import socket
+import struct
+
+# 设置发送端的目标IP和端口
+UDP_IP = "127.0.0.1"  # 目标地址
+UDP_PORT = 5005
+
+# 要发送的数字
+number = 12345
+
+# 将整数转换为字节数据
+data = struct.pack('!I', number)
 
 # 创建UDP套接字
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # 发送数据
-client_socket.sendto(b"Hello, Server!", ('127.0.0.1', 5000))
-
-# 接收响应
-data, addr = client_socket.recvfrom(1024)
-print(f"收到来自 {addr} 的数据：{data.decode()}")
-
-# 关闭连接
-client_socket.close()
+sock.sendto(data, (UDP_IP, UDP_PORT))
+print(f"已发送数字：{number}")
 ```
+
+```
+import cv2
+import socket
+import numpy as np
+
+# 设置客户端的IP和端口
+UDP_IP = "127.0.0.1"  # 目标服务器地址
+UDP_PORT = 5005  # 端口号
+
+# 创建UDP套接字
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# 打开视频文件
+cap = cv2.VideoCapture('video.mp4')  # 替换为你的视频文件路径
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # 将每帧图像编码成JPEG格式
+    _, encoded_frame = cv2.imencode('.jpg', frame)
+    
+    # 将图像数据通过UDP发送给服务器
+    sock.sendto(encoded_frame.tobytes(), (UDP_IP, UDP_PORT))
+
+    # 显示发送的帧
+    cv2.imshow('Sending Video Frame', frame)
+    
+    # 按 'q' 键退出
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# 释放资源
+cap.release()
+sock.close()
+cv2.destroyAllWindows()
+```
+
+
 
 ## 总结
 
