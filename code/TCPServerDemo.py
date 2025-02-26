@@ -1,6 +1,5 @@
 import socket
 
-
 # 创建TCP套接字
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
