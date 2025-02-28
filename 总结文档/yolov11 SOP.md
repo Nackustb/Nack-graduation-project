@@ -48,3 +48,4 @@ yolo predict model=runs/detect/train/weights/best.pt source='test1.jpg'
 yolo predict model=runs/detect/train/weights/best.pt source=0
 ```
 
+https://blog.csdn.net/qq_67105081/article/details/143402823?fromshare=blogdetail&sharetype=blogdetail&sharerId=143402823&sharerefer=PC&sharesource=m0_64430023&sharefrom=from_link
