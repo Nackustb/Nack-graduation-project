@@ -109,3 +109,14 @@ step4:
 git pull
 ```
 
+## Notice
+
+![image-20250301103920429](https://nack-1316646329.cos.ap-nanjing.myqcloud.com/image-20250301103920429.png)
+
+```
+git rm --cached <File Name>
+git add . 
+git commit -m "delete .git"
+git push
+```
+
