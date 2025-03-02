@@ -83,6 +83,8 @@ def augment_image(image, objects, seq, output_image_folder, output_annotation_fo
 
     # 将图片转换为 numpy 数组
     image_np = np.array(image)
+    image_height, image_width = image_np.shape[:2]  # 获取图像尺寸
+
     # 创建边界框对象
     bbs = BoundingBoxesOnImage([
         BoundingBox(x1=obj[1], y1=obj[2], x2=obj[3], y2=obj[4]) for obj in objects
@@ -92,19 +94,32 @@ def augment_image(image, objects, seq, output_image_folder, output_annotation_fo
     for i in range(augmentation_count):
         # 执行增强
         image_aug, bbs_aug = seq(image=image_np, bounding_boxes=bbs)
-        # 更新增强后的边界框
-        augmented_objects = [
-            (objects[0][0], int(bb.x1), int(bb.y1), int(bb.x2), int(bb.y2)) for bb in bbs_aug
-        ]
-        # 将增强后的图片转换回 PIL 格式
-        augmented_image = Image.fromarray(image_aug)
-        # 保存增强后的图片和标签
-        augmented_image_name = f"{image_name.replace('.jpg', '')}_aug_{i+1}.jpg"
-        augmented_annotation_name = f"{annotation_name.replace('.xml', '')}_aug_{i+1}.xml"
-        augmented_image_path = os.path.join(output_image_folder, augmented_image_name)
-        augmented_annotation_path = os.path.join(output_annotation_folder, augmented_annotation_name)
-        save_image(augmented_image, augmented_image_path)
-        save_annotation(augmented_objects, augmented_image_path, augmented_annotation_path)
+
+        # 确保增强后的边界框坐标不会超出图像范围
+        augmented_objects = []
+        for obj, bb in zip(objects, bbs_aug):
+            x1 = max(0, min(int(bb.x1), image_width - 1))  # 限制 x1 在合法范围内
+            y1 = max(0, min(int(bb.y1), image_height - 1)) # 限制 y1 在合法范围内
+            x2 = max(0, min(int(bb.x2), image_width - 1))  # 限制 x2 在合法范围内
+            y2 = max(0, min(int(bb.y2), image_height - 1)) # 限制 y2 在合法范围内
+            
+            # 确保边界框有效（即 x2 > x1 且 y2 > y1）
+            if x2 > x1 and y2 > y1:
+                augmented_objects.append((obj[0], x1, y1, x2, y2))
+
+        # 仅在有效边界框存在时才保存增强后的图片
+        if augmented_objects:
+            # 将增强后的图片转换回 PIL 格式
+            augmented_image = Image.fromarray(image_aug)
+            # 生成新文件名
+            augmented_image_name = f"{image_name.replace('.jpg', '')}_aug_{i+1}.jpg"
+            augmented_annotation_name = f"{annotation_name.replace('.xml', '')}_aug_{i+1}.xml"
+            augmented_image_path = os.path.join(output_image_folder, augmented_image_name)
+            augmented_annotation_path = os.path.join(output_annotation_folder, augmented_annotation_name)
+            # 保存增强后的图片和标签
+            save_image(augmented_image, augmented_image_path)
+            save_annotation(augmented_objects, augmented_image_path, augmented_annotation_path)
+
 
 def process_image(args):
     """处理单张图片的函数"""
