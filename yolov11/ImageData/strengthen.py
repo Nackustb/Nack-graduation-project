@@ -131,10 +131,25 @@ def process_image(args):
     objects = read_annotation(annotation_path)
     # 定义增强序列
     seq = iaa.Sequential([
-        iaa.Fliplr(0.5),  # 50% 概率水平翻转
-        iaa.Affine(rotate=(-30, 30)),  # 随机旋转 -30 到 30 度
-        iaa.Multiply((0.8, 1.2)),  # 随机亮度调整
+        iaa.SomeOf((2, 5), [  # 每次随机选择 2 到 5 种增强方法
+            iaa.Fliplr(0.5),  # 50% 概率水平翻转
+            iaa.Flipud(0.2),  # 20% 概率垂直翻转
+            iaa.Affine(
+                rotate=(-30, 30),  # 旋转 -30 到 30 度
+                scale=(0.8, 1.2),  # 缩放 80% 到 120%
+                translate_percent={"x": (-0.2, 0.2), "y": (-0.2, 0.2)}  # 随机平移
+            ),
+            iaa.Multiply((0.7, 1.3)),  # 亮度调整
+            iaa.GaussianBlur(sigma=(0, 3.0)),  # 随机高斯模糊
+            iaa.AdditiveGaussianNoise(scale=(10, 50)),  # 添加高斯噪声
+            iaa.LinearContrast((0.5, 2.0)),  # 线性对比度调整
+            iaa.AddToHueAndSaturation((-20, 20)),  # 色调和饱和度调整
+            iaa.Grayscale(alpha=(0.0, 1.0)),  # 随机转换为灰度图
+            iaa.Sharpen(alpha=(0.1, 1.0), lightness=(0.75, 2.0)),  # 锐化处理
+            iaa.PerspectiveTransform(scale=(0.01, 0.15)),  # 透视变换
+        ], random_order=True)  # 让选中的增强操作顺序随机
     ])
+
     augment_image(image, objects, seq, output_image_folder, output_annotation_folder, image_name, annotation_name, augmentation_count)
     return augmentation_count + 1  # 返回生成的图片数量（原始图片 + 增强图片）
 
@@ -164,4 +179,4 @@ def main(augmentation_count=5):
     print(f"处理完成，共生成 {total_generated_images} 张图片。")
 
 if __name__ == '__main__':
-    main(augmentation_count=10)  # 设置每张图片生成 10 张增强图像
+    main(augmentation_count=50)  # 设置每张图片生成 10 张增强图像
