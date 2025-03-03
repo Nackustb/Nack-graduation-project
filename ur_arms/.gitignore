@@ -1,0 +1,23 @@
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# catkin build and devel space
+build/
+devel/
+detection_img/
+.catkin_workspace
+
+# vscode config
+
+.vscode/
+
+*.swp

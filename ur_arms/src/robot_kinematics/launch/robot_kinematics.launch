@@ -1,0 +1,5 @@
+<launch>
+    <node name="robot_kinematics_node" pkg="robot_kinematics" type="robot_kinematics.py" output="screen">
+        <rosparam file="$(find robot_kinematics)/config/robot_kinematics.yaml" command="load" />
+    </node>
+</launch>

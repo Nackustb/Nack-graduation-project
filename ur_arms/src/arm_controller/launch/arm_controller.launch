@@ -1,0 +1,5 @@
+<launch>
+    <node name="arm_controller" pkg="arm_controller" type="arm_controller.py" output="screen">
+        <rosparam file="$(find arm_controller)/config/ur5_arm.yaml" command="load" />
+    </node>
+</launch>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot>
+    <!-- Base Link -->
+    <gazebo reference="base_link">
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+    <!-- shoulder Link -->
+    <gazebo reference="shoulder_link">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+    <!--  upper_arm_link -->
+    <gazebo reference="upper_arm_link">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+    <!-- forearm Link -->
+    <gazebo reference="forearm_link">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+    <!-- wrist_1_link-->
+    <gazebo reference="wrist_1_link">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+    <!--wrist_2_link -->
+    <gazebo reference="wrist_2_link">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+
+    <!--wrist_3_link -->
+    <gazebo reference="wrist_3_link">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material name="LightGrey">
+            <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+    </gazebo>
+
+
+
+</robot>
