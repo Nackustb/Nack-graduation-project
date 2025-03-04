@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 # 加载模型
-model = YOLO("./runs/detect/train/weights/best.pt")  
+model = YOLO("./runs/detect/train3/weights/best.pt")  
 
 # 读取类别名称（如果你的数据集有 classes.txt 或你知道类别）
 class_names = model.names  # 直接从 YOLO 模型获取类别名称

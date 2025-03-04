@@ -119,6 +119,7 @@ class BaseTrainer:
         self.save_period = self.args.save_period
 
         self.batch_size = self.args.batch
+        # self.epochs = 65  # in case users accidentally pass epochs=None with timed training
         self.epochs = self.args.epochs or 100  # in case users accidentally pass epochs=None with timed training
         self.start_epoch = 0
         if RANK == -1:
