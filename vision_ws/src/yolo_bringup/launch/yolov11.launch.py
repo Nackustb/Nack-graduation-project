@@ -35,13 +35,13 @@ def generate_launch_description():
                     )
                 ),
                 launch_arguments={
-                    "model": LaunchConfiguration("model", default="yolo11m.pt"),
+                    "model": LaunchConfiguration("model", default="/home/nack/vision_ws/src/yolo_ros/weights/best.pt"),
                     "tracker": LaunchConfiguration("tracker", default="bytetrack.yaml"),
                     "device": LaunchConfiguration("device", default="cuda:0"),
                     "enable": LaunchConfiguration("enable", default="True"),
                     "threshold": LaunchConfiguration("threshold", default="0.5"),
                     "input_image_topic": LaunchConfiguration(
-                        "input_image_topic", default="/camera/rgb/image_raw"
+                        "input_image_topic", default="/camera/color/image_raw"
                     ),
                     "image_reliability": LaunchConfiguration(
                         "image_reliability", default="1"
