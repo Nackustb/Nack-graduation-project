@@ -1,6 +1,6 @@
-train: C:\Users\Nack\Desktop\Graduation-Design-USTB\yolov11\ImageData\VOCdevkit\train  # train images (relative to 'path') 128 images
-val: C:\Users\Nack\Desktop\Graduation-Design-USTB\yolov11\ImageData\VOCdevkit\val  # val images (relative to 'path') 128 images
-test: C:\Users\Nack\Desktop\Graduation-Design-USTB\yolov11\ImageData\VOCdevkit\test
+train: C:\Users\Nack\Desktop\Nack-graduation-project\yolov11\ImageData\VOCdevkit\train  # train images (relative to 'path') 128 images
+val: C:\Users\Nack\Desktop\Nack-graduation-project\yolov11\ImageData\VOCdevkit\val  # val images (relative to 'path') 128 images
+test: C:\Users\Nack\Desktop\Nack-graduation-project\yolov11\ImageData\VOCdevkit\test
  
 nc: 1
  

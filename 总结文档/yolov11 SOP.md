@@ -11,7 +11,8 @@ run ExtractFrames.py
 
 ```
 conda activate LabelImg 
-LabelImg with VOC
+LabelImg with VOC or
+run python3 DetectDir.py
 ```
 
 #### Step 3
