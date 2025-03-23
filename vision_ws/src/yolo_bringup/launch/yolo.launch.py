@@ -123,7 +123,8 @@ def generate_launch_description():
         retina_masks = LaunchConfiguration("retina_masks")
         retina_masks_cmd = DeclareLaunchArgument(
             "retina_masks",
-            default_value="False",
+            # default_value="False",
+            default_value="True",
             description="Whether to use high-resolution segmentation masks if available in the model, enhancing mask quality for segmentation",
         )
 
@@ -175,7 +176,8 @@ def generate_launch_description():
         target_frame = LaunchConfiguration("target_frame")
         target_frame_cmd = DeclareLaunchArgument(
             "target_frame",
-            default_value="base_link",
+            # default_value="base_link",
+            default_value="camera_link",
             description="Target frame to transform the 3D boxes",
         )
 
@@ -332,7 +334,8 @@ def generate_launch_description():
     use_3d = LaunchConfiguration("use_3d")
     use_3d_cmd = DeclareLaunchArgument(
         "use_3d",
-        default_value="False",
+        # default_value="False",
+        default_value="True",
         description="Whether to activate 3D detections",
     )
 
