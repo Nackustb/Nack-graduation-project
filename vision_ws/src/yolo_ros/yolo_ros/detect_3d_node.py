@@ -119,7 +119,7 @@ class Detect3DNode(LifecycleNode):
             self, Image, "depth_image", qos_profile=self.depth_image_qos_profile
         )
         self.depth_info_sub = message_filters.Subscriber(
-            self, CameraInfo, "depth_info", qos_profile=self.depth_info_qos_profile
+            self, CameraInfo, "/camera/color/camera_info", qos_profile=self.depth_info_qos_profile
         )
         self.detections_sub = message_filters.Subscriber(
             self, DetectionArray, "detections"

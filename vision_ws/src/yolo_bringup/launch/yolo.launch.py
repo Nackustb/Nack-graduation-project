@@ -327,7 +327,7 @@ def generate_launch_description():
     use_tracking = LaunchConfiguration("use_tracking")
     use_tracking_cmd = DeclareLaunchArgument(
         "use_tracking",
-        default_value="True",
+        default_value="False",
         description="Whether to activate tracking",
     )
 
