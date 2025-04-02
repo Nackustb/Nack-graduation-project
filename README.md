@@ -5,7 +5,7 @@
 #### Chap1
 
 ```
-Locate based on YOLOv11+Depth Camara 
+VL based on Qwen2.5-VL
 ```
 
 #### Chap2
