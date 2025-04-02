@@ -30,4 +30,4 @@ VR/AR program development
 
 **Technical route**
 
-![img](https://nack-1316646329.cos.ap-nanjing.myqcloud.com/wps1.png)
+![image-20250402214012161](https://nack-1316646329.cos.ap-nanjing.myqcloud.com/image-20250402214012161.png)
