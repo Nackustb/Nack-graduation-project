@@ -14,7 +14,7 @@ model = YOLO("./runs/detect/train2/weights/best.pt").to(device)
 class_names = model.names if model.names else {0: "Class_0", 1: "Class_1", 2: "Class_2"}  
 
 # 打开摄像头
-cap = cv2.VideoCapture(0)  # 如果 0 不行，尝试 1 或 2
+cap = cv2.VideoCapture(1)  # 如果 0 不行，尝试 1 或 2
 
 # 获取摄像头分辨率
 ret, frame = cap.read()
