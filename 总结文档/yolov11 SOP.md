@@ -1,5 +1,13 @@
 ## prepare your dataset	
 
+#### ROS2 
+
+```
+ros2 bag record -s mcap /camera/color/image_raw
+cd your pic_dir
+ros2 run image_view image_saver --ros-args -r image:=/camera/color/image_raw -p filename_format:="frame_%04d.jpg"
+```
+
 #### step 1 
 
 ```
