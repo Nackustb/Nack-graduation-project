@@ -53,7 +53,7 @@ class YoloNode(LifecycleNode):
 
         # params
         self.declare_parameter("model_type", "YOLO")
-        self.declare_parameter("model", "yolov8m.pt")
+        self.declare_parameter("model", "/home/nack/vision_ws/src/yolo_ros/weights/best.pt")
         self.declare_parameter("device", "cuda:0")
 
         self.declare_parameter("threshold", 0.5)
@@ -327,7 +327,8 @@ class YoloNode(LifecycleNode):
 
             # convert image + predict
             cv_image = self.cv_bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
-            cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
+            
+            # cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
             results = self.yolo.predict(
                 source=cv_image,
                 verbose=False,
@@ -382,6 +383,9 @@ class YoloNode(LifecycleNode):
 
             del results
             del cv_image
+
+    
+
 
     def set_classes_cb(
         self,
