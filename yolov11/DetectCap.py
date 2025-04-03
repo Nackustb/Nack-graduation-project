@@ -8,7 +8,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
 # 加载 YOLO 模型
-model = YOLO("./runs/detect/train/weights/best.pt").to(device)
+model = YOLO("./runs/detect/train2/weights/best.pt").to(device)
 
 # 获取类别名称（如果为空，需手动指定）
 class_names = model.names if model.names else {0: "Class_0", 1: "Class_1", 2: "Class_2"}  
