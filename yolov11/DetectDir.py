@@ -16,7 +16,7 @@ os.makedirs(output_label_folder, exist_ok=True)
 os.makedirs(output_image_folder, exist_ok=True)
 
 # 加载 YOLOv11 模型（请替换为你的模型权重路径）
-model = YOLO(r"C:\Users\Nack\Desktop\Nack-graduation-project\yolov11\runs\detect\train3\weights\best.pt")  # 你的权重文件
+model = YOLO(r"C:\Users\Nack\Desktop\Nack-graduation-project\yolov11\runs\detect\train\weights\best.pt")  # 你的权重文件
 
 # 获取所有图片文件
 image_files = [f for f in os.listdir(image_folder) if f.endswith(('.jpg', '.png', '.jpeg'))]
