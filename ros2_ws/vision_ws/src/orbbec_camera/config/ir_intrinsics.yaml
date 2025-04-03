@@ -1,6 +1,6 @@
 image_width: 640
 image_height: 576
-camera_name: narrow_stereo
+camera_name: camera_ir
 camera_matrix:
   rows: 3
   cols: 3

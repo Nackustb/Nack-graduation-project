@@ -82,6 +82,7 @@ def generate_launch_description():
         imgsz_height_cmd = DeclareLaunchArgument(
             "imgsz_height",
             default_value="720",
+            # default_value="2160",
             description="Image height for inference",
         )
 
@@ -89,6 +90,7 @@ def generate_launch_description():
         imgsz_width_cmd = DeclareLaunchArgument(
             "imgsz_width",
             default_value="1280",
+            # default_value="3840",
             description="Image width for inference",
         )
 
