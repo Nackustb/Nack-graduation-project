@@ -1,6 +1,7 @@
 from ultralytics import YOLO
 import cv2
 import torch
+import time
 
 # 选择 GPU（如果可用）
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -15,12 +16,30 @@ class_names = model.names if model.names else {0: "Class_0", 1: "Class_1", 2: "C
 # 打开摄像头
 cap = cv2.VideoCapture(0)  # 如果 0 不行，尝试 1 或 2
 
+# 获取摄像头分辨率
+ret, frame = cap.read()
+if ret:
+    height, width, channels = frame.shape
+    print(f"Camera Resolution: {width}x{height}, Channels: {channels}")
+else:
+    print("Error: Could not read frame from camera.")
+    cap.release()
+    exit()
+
 confidence_threshold = 0.5  # 置信度阈值
+
+# 计算 FPS 相关变量
+prev_time = time.time()
 
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
         break
+
+    # 计算 FPS
+    current_time = time.time()
+    fps = 1.0 / (current_time - prev_time)
+    prev_time = current_time
 
     # YOLO 预测
     results = model.predict(frame, device=device)
@@ -39,6 +58,10 @@ while cap.isOpened():
             cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1) - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
+    # 在图像上显示 FPS 和 分辨率
+    cv2.putText(frame, f"FPS: {fps:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.putText(frame, f"Resolution: {width}x{height}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
     # 显示结果
     cv2.imshow("YOLOv11 Live Detection", frame)
     
@@ -47,4 +70,3 @@ while cap.isOpened():
 
 cap.release()
 cv2.destroyAllWindows()
-
