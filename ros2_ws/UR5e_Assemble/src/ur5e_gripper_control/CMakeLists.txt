@@ -24,38 +24,12 @@ find_package(control_msgs REQUIRED)
 
 find_package(tf2 REQUIRED)
 
-add_executable(test_moveit src/test_moveit.cpp)
-ament_target_dependencies(test_moveit rclcpp moveit_ros_planning_interface)
-
-add_executable(test_dual src/test_dual.cpp)
-ament_target_dependencies(test_dual rclcpp moveit_ros_planning_interface tf2)
-
-add_executable(move_group src/move_group.cpp)
-ament_target_dependencies(move_group 
-  rclcpp moveit_ros_planning_interface tf2 
-  moveit_core moveit_ros_planning moveit_visual_tools)
-
-add_executable(demo1 src/demo1.cpp)
-ament_target_dependencies(demo1 
+add_executable(demo src/demo.cpp src/ur5e_gripper.cpp)
+ament_target_dependencies(demo
   rclcpp moveit_ros_planning_interface tf2 
   moveit_core moveit_ros_planning control_msgs)
 
-add_executable(demo2 src/demo2.cpp)
-ament_target_dependencies(demo2 
-  rclcpp moveit_ros_planning_interface tf2 
-  moveit_core moveit_ros_planning control_msgs)
-
-add_executable(demo3 src/demo3.cpp)
-ament_target_dependencies(demo3
-  rclcpp moveit_ros_planning_interface tf2 
-  moveit_core moveit_ros_planning control_msgs)
-
-add_executable(demo4 src/demo4.cpp src/ur5e_gripper.cpp)
-ament_target_dependencies(demo4
-  rclcpp moveit_ros_planning_interface tf2 
-  moveit_core moveit_ros_planning control_msgs)
-
-install(TARGETS test_moveit test_dual move_group demo1 demo2 demo3 demo4
+install(TARGETS demo
   DESTINATION lib/${PROJECT_NAME}
 )
 
